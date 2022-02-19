@@ -4,6 +4,8 @@ use std::path::PathBuf;
 
 use serde::Deserialize;
 
+use crate::finder;
+
 #[derive(Debug, Deserialize)]
 struct CargoToml {
     package: Package,
@@ -44,11 +46,12 @@ pub fn run(path: &str) -> io::Result<()> {
         // 递归获取 `.rs` 文件
         find_rs_file(&dir_items[is_src_file.1], &mut rs_files)?;
 
+        // 读取Cargo.toml信息
         let cargo_toml: CargoToml =
             toml::from_str(&fs::read_to_string(&dir_items[is_cargo_toml.1])?)?;
 
-        println!("{:#?}", rs_files);
-        println!("{:#?}", cargo_toml);
+        // 查询 unwraps
+        let rs_file = finder::find_unwraps(&rs_files)?;
     } else {
         println!("Could not find `Cargo.toml` or `src` in `{}`", path);
     }

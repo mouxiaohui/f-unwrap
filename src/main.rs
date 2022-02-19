@@ -1,4 +1,5 @@
 mod run;
+mod finder;
 
 use std::env;
 use std::io;
