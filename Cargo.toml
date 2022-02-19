@@ -1,7 +1,9 @@
 [package]
 name = "f-unwrap"
 version = "0.1.0"
-author = "xiaohui <yoursxiaohui@hotmail.com>"
+description = "Check the use of the 'unwrap()' function in your project"
+authors = ["xiaohui <yoursxiaohui@hotmail.com>"]
+repository = "https://github.com/mouxiaohui/f-unwrap"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -9,3 +11,5 @@ edition = "2021"
 [dependencies]
 clap = "3.1.0"
 crossterm = "0.23.0"
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.5.8"
