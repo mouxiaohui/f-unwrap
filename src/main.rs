@@ -1,7 +1,7 @@
+mod run;
+
 use std::env;
-use std::fs::read_dir;
 use std::io;
-use std::path::PathBuf;
 
 use clap::{Arg, Command};
 
@@ -21,26 +21,10 @@ fn main() -> io::Result<()> {
             if path == "." {
                 path = &current_dir;
             }
-            run(path)?
+            run::run(path)?
         }
-        None => run(&current_dir)?,
+        None => run::run(&current_dir)?,
     };
-
-    Ok(())
-}
-
-fn run(path: &str) -> io::Result<()> {
-    // 获取文件夹下内容
-    let dir_items: Vec<PathBuf> = match read_dir(path) {
-        Ok(val) => val.map(|f| f.unwrap().path()).collect(),
-        Err(err) => return Err(err),
-    };
-
-    for item in dir_items {
-        if item.display().to_string().ends_with("src") {
-            println!("{:?}", item);
-        };
-    }
 
     Ok(())
 }
