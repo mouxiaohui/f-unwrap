@@ -8,3 +8,4 @@ edition = "2021"
 
 [dependencies]
 clap = "3.1.0"
+crossterm = "0.23.0"
