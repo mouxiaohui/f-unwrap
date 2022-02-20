@@ -1,5 +1,5 @@
 use std::fs::{self, read_dir};
-use std::io;
+use std::io::{self, stdout, Write};
 use std::path::PathBuf;
 use std::time::Duration;
 
@@ -58,6 +58,9 @@ pub fn run(path: &str) -> io::Result<()> {
         let rs_files = finder::find_unwraps(&rs_files)?;
 
         loading.end();
+        let mut stdout = stdout();
+        let _ = stdout.write(b"\x1B[2K\x1B[0G");
+        let _ = stdout.flush();
         draw(&cargo_toml.package, &rs_files);
     } else {
         println!("Could not find `Cargo.toml` or `src` in `{}`", path);

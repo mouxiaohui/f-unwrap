@@ -94,9 +94,6 @@ impl Loading {
     pub fn end(&mut self) {
         if let Some(sender) = &self.sender {
             sender.send("END".to_string()).unwrap();
-            let mut stdout = stdout();
-            let _ = stdout.write(b"\x1B[2K\x1B[0G");
-            let _ = stdout.flush();
         }
     }
 }
