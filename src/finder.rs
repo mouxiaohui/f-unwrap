@@ -11,14 +11,21 @@ const MATCH_INDICES: &str = ".unwrap()";
 
 #[derive(Debug)]
 pub struct RsFile {
-    name: String,
-    unwrap_location: Vec<UnwrapLocation>,
+    pub path: PathBuf,
+    pub unwrap_location: Vec<UnwrapLocation>,
 }
 
 #[derive(Debug)]
 pub struct UnwrapLocation {
     pub row: u64,
     pub column: u64,
+    pub line: String,
+}
+
+impl RsFile {
+    pub fn unwraps(&self) -> usize {
+        self.unwrap_location.len()
+    }
 }
 
 pub fn find_unwraps(paths: &Vec<PathBuf>) -> io::Result<Vec<RsFile>> {
@@ -50,6 +57,7 @@ fn parse_file(path: &PathBuf) -> Option<RsFile> {
                     unwrap_location.push(UnwrapLocation {
                         row,
                         column: u as u64,
+                        line: line.to_string()
                     });
                 }
 
@@ -58,13 +66,12 @@ fn parse_file(path: &PathBuf) -> Option<RsFile> {
         )
         .unwrap();
 
-    let filename = match path.file_name() {
-        Some(name) => name.to_string_lossy().to_string(),
-        None => path.display().to_string(),
-    };
+    if unwrap_location.len() < 1 {
+        return None;
+    }
 
     Some(RsFile {
-        name: filename,
-        unwrap_location: unwrap_location,
+        path: path.clone(),
+        unwrap_location,
     })
 }

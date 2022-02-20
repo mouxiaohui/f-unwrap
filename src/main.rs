@@ -23,7 +23,10 @@ fn main() -> io::Result<()> {
             if path == "." {
                 path = &current_dir;
             }
-            run::run(path)?
+            env::set_current_dir(path)?;
+
+            let current_dir = env::current_dir()?.display().to_string();
+            run::run(&current_dir)?
         }
         None => run::run(&current_dir)?,
     };

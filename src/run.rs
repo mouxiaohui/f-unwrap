@@ -1,7 +1,7 @@
 use std::fs::{self, read_dir};
+use std::io;
 use std::path::PathBuf;
 use std::time::Duration;
-use std::{io, thread};
 
 use serde::Deserialize;
 
@@ -15,13 +15,11 @@ struct CargoToml {
 
 #[derive(Debug, Deserialize)]
 pub struct Package {
-    name: String,
-    version: String,
-    description: Option<String>,
-    author: Option<String>,
-    authors: Option<Vec<String>>,
-    repository: Option<String>,
-    edition: String,
+    pub name: String,
+    pub version: String,
+    pub author: Option<String>,
+    pub authors: Option<Vec<String>>,
+    pub edition: String,
 }
 
 pub fn run(path: &str) -> io::Result<()> {
