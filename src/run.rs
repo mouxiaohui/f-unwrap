@@ -1,10 +1,12 @@
 use std::fs::{self, read_dir};
-use std::io;
 use std::path::PathBuf;
+use std::time::Duration;
+use std::{io, thread};
 
 use serde::Deserialize;
 
-use crate::finder;
+use crate::ui::draw;
+use crate::{finder, ui};
 
 #[derive(Debug, Deserialize)]
 struct CargoToml {
@@ -12,7 +14,7 @@ struct CargoToml {
 }
 
 #[derive(Debug, Deserialize)]
-struct Package {
+pub struct Package {
     name: String,
     version: String,
     description: Option<String>,
@@ -23,6 +25,10 @@ struct Package {
 }
 
 pub fn run(path: &str) -> io::Result<()> {
+    // 加载动画
+    let mut loading = ui::Loading::new(Duration::from_millis(200));
+    loading.start();
+
     // 获取文件夹下内容
     let dir_items: Vec<PathBuf> = match read_dir(&path) {
         Ok(val) => val.map(|f| f.unwrap().path()).collect(),
@@ -51,7 +57,10 @@ pub fn run(path: &str) -> io::Result<()> {
             toml::from_str(&fs::read_to_string(&dir_items[is_cargo_toml.1])?)?;
 
         // 查询 unwraps
-        let rs_file = finder::find_unwraps(&rs_files)?;
+        let rs_files = finder::find_unwraps(&rs_files)?;
+
+        loading.end();
+        draw(&cargo_toml.package, &rs_files);
     } else {
         println!("Could not find `Cargo.toml` or `src` in `{}`", path);
     }
