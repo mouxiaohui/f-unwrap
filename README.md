@@ -1,9 +1,15 @@
-# f-unwrap
-检查项目中 unwrap() 使用情况
+# <p align="center">f-unwrap👁️‍🗨️</p>
 
-<img src="static/f-unwrap.gif" alt="show" width="800" />
+<p>检查项目中 unwrap() 使用情况</p>
 
-## Usage
+<div align="center">
+
+<img src="static/f-unwrap.png" alt="show" width="800px"/>
+
+</div>
+
+## 🪧Usage
+
 ```
 USAGE:
     f-unwrap [PATH]

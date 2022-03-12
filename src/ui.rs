@@ -43,10 +43,11 @@ pub fn draw(cargo_toml: &Package, rs_files: &Vec<RsFile>) {
             print!(
                 "  {:>2}. {}:{}:{} => ",
                 i + 1,
-                path_string,
-                location.row,
-                location.column,
+                path_string.truecolor(230, 220, 189),
+                location.row.to_string().truecolor(201, 191, 117),
+                location.column.to_string().truecolor(201, 191, 117),
             );
+
             for line in line_color_string {
                 print!("{}", line);
             }
